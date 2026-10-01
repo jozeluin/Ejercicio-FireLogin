@@ -1,0 +1,53 @@
+[versions]
+# Versiones de Plugins del profesor
+agp = "8.1.1"
+kotlin = "1.8.0"
+hilt = "2.45"
+google-services = "4.3.15"
+
+# Versiones de Librerías
+activity-ktx = "1.7.2"
+appcompat = "1.6.1"
+constraintlayout = "2.1.4"
+core-ktx = "1.9.0"
+espresso-core = "3.5.1"
+facebook-login = "16.2.0"
+firebase-bom = "32.2.3"
+hilt-compiler-version = "2.44"
+junit = "4.13.2"
+junit-ext = "1.1.5"
+material = "1.9.0"
+pinview = "1.4.4"
+play-services-auth = "20.7.0"
+
+[libraries]
+# Core & UI clásica
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity-ktx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+com-google-android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# Login & Terceros
+com-facebook-android-facebook-login = { group = "com.facebook.android", name = "facebook-login", version.ref = "facebook-login" }
+com-google-android-gms-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
+io-github-chaosleung-pinview = { group = "io.github.chaosleung", name = "pinview", version.ref = "pinview" }
+
+# Firebase
+google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+google-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+
+# Dagger Hilt
+dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt-compiler-version" }
+
+# Testing
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit-ext" }
+androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }

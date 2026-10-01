@@ -1,0 +1,32 @@
+# --- Archivos del Sistema Operativo ---
+*.DS_Store
+Thumbs.db
+
+# --- Archivos de Compilación de Android Studio ---
+*.iml
+.gradle/
+local.properties
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/nav/
+.idea/assetWizardSettings.xml
+build/
+capture/
+output.json
+
+# --- Archivos específicos por módulo ---
+**/build/
+**/externalNativeBuild/
+**/.cxx/
+
+# --- Seguridad y Credenciales de Login (¡Crucial para este ejercicio!) ---
+*.keystore
+*.jks
+*.p12
+google-services.json
+
+# --- Archivos temporales de dispositivos ---
+.navigation/
+device/
