@@ -1,10 +1,12 @@
 package com.jozeluindev.firelogin.ui.splash
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.jozeluindev.firelogin.R
 import com.jozeluindev.firelogin.databinding.ActivitySplashBinding
+import com.jozeluindev.firelogin.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +19,12 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        navigateToLogin()
 
     }
+
+   private fun navigateToLogin(){
+        startActivity(Intent(this, LoginActivity::class.java))
+    }
+
 }
