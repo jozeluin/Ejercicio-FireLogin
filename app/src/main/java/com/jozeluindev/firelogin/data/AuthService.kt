@@ -1,6 +1,7 @@
 package com.jozeluindev.firelogin.data
 
 import com.google.android.gms.tasks.Task
+import com.google.android.play.integrity.internal.f
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -33,6 +34,12 @@ class AuthService @Inject constructor(private val firebaseAuth: FirebaseAuth)  {
 
     }
 
-    private fun getCurrentUser()=firebaseAuth.currentUser
 
+
+    fun logout() {
+        firebaseAuth.signOut()
+    }
+
+
+    private fun getCurrentUser()=firebaseAuth.currentUser
 }
