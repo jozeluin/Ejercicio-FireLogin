@@ -32,6 +32,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tieUser"
+            android:text="cursokotlin.com@gmail.com"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -51,6 +52,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiePassword"
+            android:text="123456"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

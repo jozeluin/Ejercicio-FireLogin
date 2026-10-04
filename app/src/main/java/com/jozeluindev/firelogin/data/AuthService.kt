@@ -26,10 +26,13 @@ class AuthService @Inject constructor(private val firebaseAuth: FirebaseAuth)  {
                 cancellableContinuation.resumeWithException(it)
             }
         }
+    }
 
-
-
+    fun isUserLogged(): Boolean {
+        return getCurrentUser()  != null
 
     }
+
+    private fun getCurrentUser()=firebaseAuth.currentUser
 
 }
