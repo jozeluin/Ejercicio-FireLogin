@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.jozeluindev.firelogin.databinding.ActivityLoginBinding
 import com.jozeluindev.firelogin.ui.detail.DetailActivity
+import com.jozeluindev.firelogin.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,6 +48,14 @@ class LoginActivity : AppCompatActivity() {
                 password = binding.tiePassword.text.toString()
             ) {navigateToDetail()}
         }
+
+        binding.tvSignUp.setOnClickListener {
+            navigateToSignUp()
+        }
+    }
+
+    private fun navigateToSignUp() {
+        startActivity(Intent(this, SignUpActivity::class.java))
     }
 
     private fun navigateToDetail(){

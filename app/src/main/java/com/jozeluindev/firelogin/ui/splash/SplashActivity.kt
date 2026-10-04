@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.jozeluindev.firelogin.R
 import com.jozeluindev.firelogin.databinding.ActivitySplashBinding
 import com.jozeluindev.firelogin.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
