@@ -1,20 +1,23 @@
 package com.jozeluindev.firelogin.ui.login
 
-import android.R.id.message
-import android.app.Dialog
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.jozeluindev.firelogin.databinding.ActivityLoginBinding
 import com.jozeluindev.firelogin.databinding.DialogPhoneLoginBinding
 import com.jozeluindev.firelogin.ui.detail.DetailActivity
@@ -26,6 +29,24 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var binding: ActivityLoginBinding
+
+    private val googleLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                try {
+                    val account =
+                        task.getResult(ApiException::class.java)!!//devoulucion parseado a ese modelo de datos
+                    loginViewModel.loginWithGoogle(account.idToken!!) { navigateToDetail() }
+
+                } catch (e: ApiException) {
+                    Toast.makeText(this, "Ha ocurrido un error: ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.login(
                 user = binding.tieUser.text.toString(),
                 password = binding.tiePassword.text.toString()
-            ) {navigateToDetail()}
+            ) { navigateToDetail() }
         }
 
         binding.tvSignUp.setOnClickListener {
@@ -64,34 +85,41 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLoginPhone.setOnClickListener {
             showPhoneLogin()
         }
+        binding.btnLoginGoogle.setOnClickListener {
+            loginViewModel.onGoogleLoginSelected {
+                googleLauncher.launch(it.signInIntent)
+            }
+        }
 
 
     }
 
     private fun showPhoneLogin() {
-        val phoneBinding : DialogPhoneLoginBinding = DialogPhoneLoginBinding.inflate(layoutInflater)
-        val alertdialog= AlertDialog.Builder(this).apply { setView(phoneBinding.root) } .create()
+        val phoneBinding: DialogPhoneLoginBinding = DialogPhoneLoginBinding.inflate(layoutInflater)
+        val alertdialog = AlertDialog.Builder(this).apply { setView(phoneBinding.root) }.create()
 
         phoneBinding.btnPhone.setOnClickListener {
-            loginViewModel.loginWithPhone(phoneBinding.tiePhone.text.toString(),this,
+            loginViewModel.loginWithPhone(
+                phoneBinding.tiePhone.text.toString(), this,
                 onCodeSent = {
-                    phoneBinding.tiePhone.isEnabled=false
-                    phoneBinding.btnPhone.isEnabled=false
+                    phoneBinding.tiePhone.isEnabled = false
+                    phoneBinding.btnPhone.isEnabled = false
                     phoneBinding.pinView.isVisible = true
                     phoneBinding.pinView.requestFocus()
-                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager//forzar teclado
+                    val imm =
+                        getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager//forzar teclado
                     imm.showSoftInput(phoneBinding.pinView, InputMethodManager.SHOW_IMPLICIT)
 
                 },
-                onVerificationCompleted = {navigateToDetail()},
-                onVerificationFailed = {showToast("Ha Habido un Error: $it")}
+                onVerificationCompleted = { navigateToDetail() },
+                onVerificationFailed = { showToast("Ha Habido un Error: $it") }
 
-                )
+            )
         }
 
         phoneBinding.pinView.doOnTextChanged { text, _, _, _ ->
-            if(text?.length == 6){
-                loginViewModel.verifyCode(text.toString()){navigateToDetail()}
+            if (text?.length == 6) {
+                loginViewModel.verifyCode(text.toString()) { navigateToDetail() }
             }
 
         }
@@ -107,7 +135,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(Intent(this, SignUpActivity::class.java))
     }
 
-    private fun navigateToDetail(){
+    private fun navigateToDetail() {
         startActivity(Intent(this, DetailActivity::class.java))
 
 

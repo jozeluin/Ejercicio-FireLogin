@@ -1,9 +1,9 @@
 package com.jozeluindev.firelogin.ui.login
 
-import android.R.attr.phoneNumber
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
@@ -59,7 +59,7 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
 
                     viewModelScope.launch {
                         val result=withContext(Dispatchers.IO){
-                            authService.completeRegisterWithPhone(credentials)
+                            authService.completeRegisterWithPhoneVerification(credentials)
                         }
 
                         if(result!=null){
@@ -107,6 +107,24 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
             if(result!=null){
                 onSuccessVerification()
             }
+        }
+    }
+
+    fun onGoogleLoginSelected(googleLauncherLogin: (GoogleSignInClient) -> Unit) {
+        val gsc=authService.getGoogleClient()
+        googleLauncherLogin(gsc)
+    }
+
+    fun loginWithGoogle(idToken: String,navigateToDetail: () -> Unit) {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO){
+                authService.loginWithGoogle(idToken)
+            }
+            if(result != null){
+                navigateToDetail()
+            }
+
+
         }
     }
 
