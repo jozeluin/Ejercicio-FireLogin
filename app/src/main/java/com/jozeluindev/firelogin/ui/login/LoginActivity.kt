@@ -16,6 +16,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.jozeluindev.firelogin.databinding.ActivityLoginBinding
@@ -29,6 +33,9 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
     private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var binding: ActivityLoginBinding
+
+    //Facebook
+    private lateinit var callbackManager: CallbackManager
 
     private val googleLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -55,6 +62,11 @@ class LoginActivity : AppCompatActivity() {
         intUi()
 
     }
+//Facebook
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        callbackManager.onActivityResult(requestCode, resultCode, data)
+//    }
 
     private fun intUi() {
         initListeners()
@@ -90,6 +102,30 @@ class LoginActivity : AppCompatActivity() {
                 googleLauncher.launch(it.signInIntent)
             }
         }
+        //Facebook
+
+        callbackManager = CallbackManager.Factory.create()
+        binding.btnLoginFacebook.setPermissions("email", "public_profile")
+        binding.btnLoginFacebook.registerCallback(callbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onCancel() {
+                    showToast("Probamos con otra red social??")
+                }
+
+                override fun onError(error: FacebookException) {
+                    showToast("Ha Habido un Error: $error")
+                }
+
+                override fun onSuccess(result: LoginResult) {
+                    loginViewModel.loginWithFacebook(result.accessToken) { navigateToDetail() }
+
+                }
+
+            })
+
+
+
+        //Facebook end
 
 
     }

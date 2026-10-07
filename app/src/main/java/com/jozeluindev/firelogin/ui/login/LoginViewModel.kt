@@ -3,6 +3,7 @@ package com.jozeluindev.firelogin.ui.login
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
@@ -58,18 +59,16 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
                     //navigateToDetail() todo ha ido bien
 
                     viewModelScope.launch {
-                        val result=withContext(Dispatchers.IO){
+                        val result = withContext(Dispatchers.IO) {
                             authService.completeRegisterWithPhoneVerification(credentials)
                         }
 
-                        if(result!=null){
+                        if (result != null) {
                             onVerificationCompleted()
 
                         }
 
                     }
-
-
 
 
                 }
@@ -80,7 +79,10 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
 
                 }
 
-                override fun onCodeSent(verificationCode: String, p1: PhoneAuthProvider.ForceResendingToken) {
+                override fun onCodeSent(
+                    verificationCode: String,
+                    p1: PhoneAuthProvider.ForceResendingToken
+                ) {
                     //cuando haya enviado el sms al movil
                     this@LoginViewModel.verificationCode = verificationCode
                     _isLoading.value = false
@@ -89,7 +91,7 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
 
             }
 
-           withContext(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 authService.loginWithPhone(phoneNumber, activity, callback)
             }
 
@@ -100,27 +102,27 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
 
     fun verifyCode(phoneCode: String, onSuccessVerification: () -> Unit) {
         viewModelScope.launch {
-            val result=withContext(Dispatchers.IO){
-                authService.verifyCode(verificationCode,phoneCode)
+            val result = withContext(Dispatchers.IO) {
+                authService.verifyCode(verificationCode, phoneCode)
             }
 
-            if(result!=null){
+            if (result != null) {
                 onSuccessVerification()
             }
         }
     }
 
     fun onGoogleLoginSelected(googleLauncherLogin: (GoogleSignInClient) -> Unit) {
-        val gsc=authService.getGoogleClient()
+        val gsc = authService.getGoogleClient()
         googleLauncherLogin(gsc)
     }
 
-    fun loginWithGoogle(idToken: String,navigateToDetail: () -> Unit) {
+    fun loginWithGoogle(idToken: String, navigateToDetail: () -> Unit) {
         viewModelScope.launch {
-            val result = withContext(Dispatchers.IO){
+            val result = withContext(Dispatchers.IO) {
                 authService.loginWithGoogle(idToken)
             }
-            if(result != null){
+            if (result != null) {
                 navigateToDetail()
             }
 
@@ -128,4 +130,15 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
         }
     }
 
+    fun loginWithFacebook(accessToken: AccessToken, navigateToDetail: () -> Unit) {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                authService.loginWithFacebook(accessToken)
+            }
+            if (result != null) {
+                navigateToDetail()
+            }
+        }
+
+    }
 }
