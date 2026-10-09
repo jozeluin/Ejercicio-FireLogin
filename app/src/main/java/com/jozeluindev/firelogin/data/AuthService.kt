@@ -12,11 +12,13 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.OAuthProvider
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.jozeluindev.firelogin.R
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.TimeUnit
@@ -115,6 +117,38 @@ class AuthService @Inject constructor(
     suspend fun loginWithFacebook(accessToken: AccessToken): FirebaseUser? {
         val credential = FacebookAuthProvider.getCredential(accessToken.token)
         return completeRegisterWithCredential(credential)
+    }
+
+    suspend fun loginWithGithub(activity: Activity): FirebaseUser? {
+
+        val provider = OAuthProvider.newBuilder("github.com").apply {
+            scopes = listOf("user:email")
+        }
+
+      // val provider = OAuthProvider.newBuilder("github.com")
+
+        return suspendCancellableCoroutine { cancellableContinuation ->
+            firebaseAuth.pendingAuthResult?.addOnSuccessListener {
+                cancellableContinuation.resume(it.user)
+            }?.addOnFailureListener {
+                cancellableContinuation.resumeWithException(it)
+
+            } ?: completeRegisterWithProvider(activity, provider.build(), cancellableContinuation)
+        }
+
+    }
+
+    private fun completeRegisterWithProvider(
+        activity: Activity,
+        provider: OAuthProvider,
+        cancellableContinuation: CancellableContinuation<FirebaseUser?>
+    ) {
+        firebaseAuth.startActivityForSignInWithProvider(activity, provider).addOnSuccessListener {
+            cancellableContinuation.resume(it.user)
+        }.addOnFailureListener {
+            cancellableContinuation.resumeWithException(it)
+        }
+            .addOnFailureListener { cancellableContinuation.resumeWithException(it) }
     }
 }
 

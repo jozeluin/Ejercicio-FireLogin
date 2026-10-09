@@ -62,11 +62,7 @@ class LoginActivity : AppCompatActivity() {
         intUi()
 
     }
-//Facebook
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        callbackManager.onActivityResult(requestCode, resultCode, data)
-//    }
+
 
     private fun intUi() {
         initListeners()
@@ -102,6 +98,19 @@ class LoginActivity : AppCompatActivity() {
                 googleLauncher.launch(it.signInIntent)
             }
         }
+
+        //Github
+        binding.btnLoginGithub.setOnClickListener {
+           loginViewModel.onGithubLoginSelected ( this ){navigateToDetail()}
+        }
+
+
+        //Github end
+
+
+
+
+
         //Facebook
 
         callbackManager = CallbackManager.Factory.create()
