@@ -113,6 +113,14 @@ class LoginActivity : AppCompatActivity() {
         }
         //Microsoft end
 
+        //Twitter
+        binding.btnLoginTwitter.setOnClickListener {
+            loginViewModel.onTwitterLoginSelected ( this ){navigateToDetail()}
+        }
+
+
+        //Twitter end
+
 
 
 

@@ -136,6 +136,14 @@
                 android:backgroundTint="@color/black"
                 android:text="Login with Microsoft"
                 app:icon="@drawable/ic_microsoft" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLoginTwitter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:backgroundTint="@color/black"
+                android:text="Login with Twiter"
+                app:icon="@drawable/ic_twitter" />
         </LinearLayout>
 
 
