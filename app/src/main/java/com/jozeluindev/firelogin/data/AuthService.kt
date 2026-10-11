@@ -17,6 +17,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.jozeluindev.firelogin.R
+import com.jozeluindev.firelogin.ui.login.LoginActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -167,6 +168,12 @@ class AuthService @Inject constructor(
    suspend fun loginWithTwitter(activity: Activity): FirebaseUser? {
        val provider= OAuthProvider.newBuilder("twitter.com").build()
        return initRegisterWithProvider(activity, provider)
+
+    }
+
+    suspend fun loginWithYahoo(activity: LoginActivity):FirebaseUser?  {
+        val provider= OAuthProvider.newBuilder("yahoo.com").build()
+        return initRegisterWithProvider(activity, provider)
 
     }
 

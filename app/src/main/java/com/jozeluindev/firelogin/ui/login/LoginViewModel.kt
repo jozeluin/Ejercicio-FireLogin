@@ -174,4 +174,18 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
             }
         }
     }
+
+    fun onYahooLoginSelected(activity: LoginActivity, navigateToDetail: () -> Unit) {
+
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                authService.loginWithYahoo(activity)
+            }
+            if (result != null) {
+                navigateToDetail()
+            }
+        }
+    }
+
+
 }

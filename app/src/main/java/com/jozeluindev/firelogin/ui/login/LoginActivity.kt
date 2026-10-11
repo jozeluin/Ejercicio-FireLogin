@@ -19,6 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.appevents.codeless.internal.ViewHierarchy.setOnClickListener
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
@@ -120,6 +121,14 @@ class LoginActivity : AppCompatActivity() {
 
 
         //Twitter end
+
+        //Yahoo
+        binding.btnLoginYahoo.setOnClickListener {
+            loginViewModel.onYahooLoginSelected ( this ){navigateToDetail()}
+        }
+
+
+        //Yahoo end
 
 
 
