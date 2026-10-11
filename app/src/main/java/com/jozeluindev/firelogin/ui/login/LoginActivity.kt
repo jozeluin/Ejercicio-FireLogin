@@ -96,6 +96,11 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLoginPhone.setOnClickListener {
             showPhoneLogin()
         }
+
+        binding.btnLoginAnonymously.setOnClickListener {
+            loginViewModel.loginAnonymously{navigateToDetail()}
+        }
+
         binding.btnLoginGoogle.setOnClickListener {
             loginViewModel.onGoogleLoginSelected {
                 googleLauncher.launch(it.signInIntent)

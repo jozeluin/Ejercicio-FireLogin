@@ -43,6 +43,25 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
 
     }
 
+    fun loginAnonymously(navigateToDetail: () -> Unit) {
+
+        viewModelScope.launch {
+            _isLoading.value=true
+
+            val result= withContext(Dispatchers.IO){
+                authService.loginAnonymously()
+            }
+            if(result!=null){
+                navigateToDetail()
+            }else{
+                //Error
+            }
+
+            _isLoading.value=false
+        }
+
+    }
+
     fun loginWithPhone(
         phoneNumber: String,
         activity: Activity,
@@ -207,6 +226,8 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
         }
 
     }
+
+
 
 
 }

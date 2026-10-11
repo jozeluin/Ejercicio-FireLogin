@@ -14,11 +14,11 @@
         android:layout_height="200dp"
         android:layout_marginBottom="24dp"
         android:src="@drawable/firebase_authentication"
-        app:layout_constraintBottom_toTopOf="@+id/tilUser"
+        app:layout_constraintBottom_toTopOf="@+id/cvLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <View
         android:layout_width="0dp"
@@ -27,54 +27,72 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUser"
+        app:layout_constraintTop_toTopOf="parent" />
+    
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        app:boxBackgroundMode="none"
-        android:background="@color/white"
-        android:hint="login"
-        app:layout_constraintBottom_toTopOf="@+id/tilPassword"
+        app:cardElevation="22dp"
+        app:cardCornerRadius="22dp"
+        android:layout_marginHorizontal="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivheader">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tieUser"
+        
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="cursokotlin.com@gmail.com" />
+            android:orientation="vertical">
 
 
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:background="@color/white"
-        app:boxBackgroundMode="none"
-        android:hint="Password"
-        app:layout_constraintBottom_toTopOf="@+id/viewLoginContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilUser">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiePassword"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="123456" />
+            android:paddingTop="8dp"
+            android:layout_marginHorizontal="12dp"
+            app:boxBackgroundMode="none"
+            android:background="@color/white"
+            android:hint="login"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tieUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:paddingTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@color/white"
+            app:boxBackgroundMode="none"
+            android:hint="Password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
 
     <TextView
         android:id="@+id/tvSignUp"
@@ -86,40 +104,27 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/cvLogin" />
 
-    <LinearLayout
-        android:id="@+id/viewLoginContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSignUp">
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSignUp"
             android:layout_weight="1"
             android:backgroundTint="@color/black"
             android:text="Login" />
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnLoginPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:src="@drawable/ic_smartphone"
-            app:backgroundTint="@color/black"
-            app:tint="@color/white" />
 
 
-    </LinearLayout>
+
+
 
 
     <ScrollView
@@ -128,7 +133,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewLoginContainer">
+        app:layout_constraintTop_toBottomOf="@id/btnLogin">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -169,12 +174,20 @@
                 <!--                android:layout_marginBottom="16dp" />-->
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btnLoginFacebook"
+                android:id="@+id/btnLoginFacebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/ic_fb"
+                app:tint="@color/white" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnLoginAnonymously"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
                     android:backgroundTint="@color/black"
-                    android:src="@drawable/ic_fb"
+                    android:src="@drawable/ic_anonymously"
                     app:tint="@color/white" />
 
 
@@ -213,6 +226,15 @@
                     android:backgroundTint="@color/black"
                     android:src="@drawable/ic_yahoo"
                     app:tint="@color/white" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/btnLoginPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:src="@drawable/ic_smartphone"
+                            app:backgroundTint="@color/black"
+                            app:tint="@color/white" />
 
 
             </LinearLayout>
