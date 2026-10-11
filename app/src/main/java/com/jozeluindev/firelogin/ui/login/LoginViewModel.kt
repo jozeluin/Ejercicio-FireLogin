@@ -141,51 +141,79 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
         }
 
     }
+//
+//    fun onGithubLoginSelected(activity: Activity, navigateToDetail: () -> Unit) {
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                authService.loginWithGithub(activity)
+//            }
+//            if (result != null) {
+//                navigateToDetail()
+//            }
+//        }
+//    }
+//
+//    fun onMicrosoftLoginSelected(activity: Activity, navigateToDetail: () -> Unit) {
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                authService.loginWithMicrosoft(activity)
+//            }
+//            if (result != null) {
+//                navigateToDetail()
+//            }
+//        }
+//    }
+//
+//    fun onTwitterLoginSelected(activity: Activity, navigateToDetail: () -> Unit) {
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                authService.loginWithTwitter(activity)
+//            }
+//            if (result != null) {
+//                navigateToDetail()
+//            }
+//        }
+//    }
+//
+//    fun onYahooLoginSelected(activity: LoginActivity, navigateToDetail: () -> Unit) {
+//
+//        viewModelScope.launch {
+//            val result = withContext(Dispatchers.IO) {
+//                authService.loginWithYahoo(activity)
+//            }
+//            if (result != null) {
+//                navigateToDetail()
+//            }
+//        }
+//    }
 
-    fun onGithubLoginSelected(activity: Activity, navigateToDetail: () -> Unit) {
+    fun onOathLoginSelected(
+        oath: OathLogin,
+        activity: LoginActivity, navigateToDetail: () -> Unit
+    ) {
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                authService.loginWithGithub(activity)
+                when (oath) {
+                    OathLogin.Github -> authService.loginWithGithub(activity)
+                    OathLogin.Microsoft -> authService.loginWithMicrosoft(activity)
+                    OathLogin.Twitter -> authService.loginWithTwitter(activity)
+                    OathLogin.Yahoo -> authService.loginWithYahoo(activity)
+
+                }
             }
             if (result != null) {
                 navigateToDetail()
             }
         }
-    }
 
-    fun onMicrosoftLoginSelected(activity: Activity, navigateToDetail: () -> Unit) {
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                authService.loginWithMicrosoft(activity)
-            }
-            if (result != null) {
-                navigateToDetail()
-            }
-        }
-    }
-
-    fun onTwitterLoginSelected(activity: Activity, navigateToDetail: () -> Unit) {
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                authService.loginWithTwitter(activity)
-            }
-            if (result != null) {
-                navigateToDetail()
-            }
-        }
-    }
-
-    fun onYahooLoginSelected(activity: LoginActivity, navigateToDetail: () -> Unit) {
-
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                authService.loginWithYahoo(activity)
-            }
-            if (result != null) {
-                navigateToDetail()
-            }
-        }
     }
 
 
+}
+
+sealed class OathLogin {
+    object Github : OathLogin()
+    object Microsoft : OathLogin()
+    object Twitter : OathLogin()
+    object Yahoo : OathLogin()
 }

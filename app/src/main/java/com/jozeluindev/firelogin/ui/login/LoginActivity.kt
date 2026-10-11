@@ -20,12 +20,14 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.appevents.codeless.internal.ViewHierarchy.setOnClickListener
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.jozeluindev.firelogin.databinding.ActivityLoginBinding
 import com.jozeluindev.firelogin.databinding.DialogPhoneLoginBinding
 import com.jozeluindev.firelogin.ui.detail.DetailActivity
+import com.jozeluindev.firelogin.ui.login.OathLogin.*
 import com.jozeluindev.firelogin.ui.signup.SignUpActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -102,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
 
         //Github
         binding.btnLoginGithub.setOnClickListener {
-           loginViewModel.onGithubLoginSelected ( this ){navigateToDetail()}
+           loginViewModel.onOathLoginSelected (Github,this ){navigateToDetail()}
         }
 
 
@@ -110,13 +112,13 @@ class LoginActivity : AppCompatActivity() {
 
         //Microsoft
         binding.btnLoginMicrosoft.setOnClickListener {
-            loginViewModel.onMicrosoftLoginSelected ( this ){navigateToDetail()}
+            loginViewModel.onOathLoginSelected (Microsoft,this ){navigateToDetail()}
         }
         //Microsoft end
 
         //Twitter
         binding.btnLoginTwitter.setOnClickListener {
-            loginViewModel.onTwitterLoginSelected ( this ){navigateToDetail()}
+            loginViewModel.onOathLoginSelected (Twitter, this ){navigateToDetail()}
         }
 
 
@@ -124,7 +126,7 @@ class LoginActivity : AppCompatActivity() {
 
         //Yahoo
         binding.btnLoginYahoo.setOnClickListener {
-            loginViewModel.onYahooLoginSelected ( this ){navigateToDetail()}
+            loginViewModel.onOathLoginSelected (Yahoo, this ){navigateToDetail()}
         }
 
 
@@ -137,8 +139,8 @@ class LoginActivity : AppCompatActivity() {
         //Facebook
 
         callbackManager = CallbackManager.Factory.create()
-        binding.btnLoginFacebook.setPermissions("email", "public_profile")
-        binding.btnLoginFacebook.registerCallback(callbackManager,
+
+        LoginManager.getInstance().registerCallback(callbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onCancel() {
                     showToast("Probamos con otra red social??")
@@ -154,6 +156,30 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             })
+
+        binding.btnLoginFacebook.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(this,callbackManager, listOf("email", "public_profile"))
+        }
+
+
+
+//        binding.btnLoginFacebook.setPermissions("email", "public_profile")
+//        binding.btnLoginFacebook.registerCallback(callbackManager,
+//            object : FacebookCallback<LoginResult> {
+//                override fun onCancel() {
+//                    showToast("Probamos con otra red social??")
+//                }
+//
+//                override fun onError(error: FacebookException) {
+//                    showToast("Ha Habido un Error: $error")
+//                }
+//
+//                override fun onSuccess(result: LoginResult) {
+//                    loginViewModel.loginWithFacebook(result.accessToken) { navigateToDetail() }
+//
+//                }
+//
+//            })
 
 
 
