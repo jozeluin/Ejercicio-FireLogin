@@ -128,6 +128,14 @@
                 android:backgroundTint="@color/black"
                 android:text="Login with GitHub"
                 app:icon="@drawable/ic_github" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLoginMicrosoft"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:backgroundTint="@color/black"
+                android:text="Login with Microsoft"
+                app:icon="@drawable/ic_microsoft" />
         </LinearLayout>
 
 

@@ -107,6 +107,12 @@ class LoginActivity : AppCompatActivity() {
 
         //Github end
 
+        //Microsoft
+        binding.btnLoginMicrosoft.setOnClickListener {
+            loginViewModel.onMicrosoftLoginSelected ( this ){navigateToDetail()}
+        }
+        //Microsoft end
+
 
 
 
