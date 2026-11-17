@@ -15,3 +15,12 @@ con el splash.
 Y lo mismo con el login y con detail.
 
 # 4-17 Creando el diseño de al app (Login,Registro y detalle) #
+Creamos en el activity_splash.xml colocamo un background para ver que se lanza. Creamos un color en colors.xml, el color splash . Tambien colocamos un texto.
+
+Vamos al activity_login.cml, tendremos que crear una imagen, tambien tendremos que crear unos botones pero eso lo haremos mas tarde.
+Colocamos tambien un TextInputLayout y un TextInputLayout.
+Dentro del TextInputLayout colocamos un TextInputEditText, basicamente Usuario y pasword, y abajo el boton de login.
+
+Ahora despues activity_detail.xml. Simplemente colocaremos un boton, Logout. Para saber si tenemos la sesion iniciada.
+Ahora vamos al registro, activity_sign_up.xml. Copiamos el activity_login.xml, sin la imagen, tendremos solo dos campos y un boton, SignUp.
+Uno de email y otro de password.
