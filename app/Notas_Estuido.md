@@ -65,5 +65,19 @@ class AuthService @Inject constructor(private val firebaseAuth: FirebaseAuth)  {
 }
 ````
 
-Asi ademas de logarlo, tenemos su informacion . Y lo siguiente es inyectarlo en el LoginViewModel 9:02
+Asi ademas de logarlo, tenemos su informacion . Y lo siguiente es inyectarlo en el LoginViewModel. Ahora dentro creamos loa funcion login,
+y alli creamos una corutina. Como tenemos que mostrar un progressBar, nos vamos al activity_login y lo creamos.
+Entonces en el LoginActivity creamos una funcion intiUistate que tambien se inicia en el initUI, y la creamos. 
+Creamos un estado en el loginViewmodel _isLoading  y isLoading. Ahora en el initUiState(), creamos  un lifecycleScope.launch, y alli
+collecteamos el isLoading del loginViewModel, y cuando sea true mostrara el progressBar. 
+Entonces en el login del viewModel en la corutina es donde se controlara el valor de _isLoading. 
+Despues de cuando sea true se consigue el authService.login, y si ese result es diferente de null ejecutara una funcion lambda de navegacion
+.Esa lambda sera ejecutada en donde se llama el loginViewModel.login, que es en el loginActivity, alli ejecutara la funcion
+navigateToDetail(), la cual ejecutara el starActivity del DetailActivity.
 
+Lo probamos y da error. Y es un tema de versiones de kotlin, y por que le faltaba el jvmToolChain().
+Ahora probamos y colcamos lo que tenemos puesto en la base de datos, el usuario y la contraseña. Y Funciona correctamente, tenemos el login implementado,
+.
+
+
+ 
