@@ -60,4 +60,77 @@ Ahora probamos, vamos a registro,pulsando el texto de registro y colocamos el em
 Si colocaramos uno ya existente saltaria la excepcion del Catch
 
 # 7-17 Mantener la sesion iniciada #
+Ponemos le login y el pasword y entramos. Pero entonces si salimos de la aplicacion y volvemos a entrar ya no estamos dentro, esto lo vamos
+a arreglar. No hacemos ningun control sobre si tenemos alguna sesion iniciada. Lo primero que hacemos en el layout es poner un texto
+tanto en el email como en la contraseña. Tenemos que hacer un gestor de versiones. Nos vamos al SplashViewModel.  
+Creamos una funcion checkDestination(), antes en el SplashActivity al empezar hivamos al navigateToLogin directamente, ahora no lo haremos asi.
+En el SplashViewModel, inyectamos el authService  y creamos la funcion isUsserLogged(), que a su vez retornara el valor de otra  funcion nueva
+que vamos a crear en el AuthService, fun isUsserLogged(): Boolean. Ahora como Firebase nos dice que estamos logados.
+Pues necesitamos el FirebaseUSer, retornamos firebaseAuth.currentUser != null, creamos una funcion auxiliar por si necesitamos esto en mas
+parte, getCurrentUser(), osea que lo llamamos y comprobamos que sea diferente de null. Entonces simplemente en SplashViewModel.chekDestination
+comprobamos si esta logado. Y ahora comoprobamos y creamos dos opciones:
+````kotlin
+    private fun isUserLogged():Boolean
+    {
+        return authService.isUserLogged()
+    }
+
+    fun checkDestination(): SplashDestination {
+        val isUserLogged = isUserLogged()
+
+       return  if(isUserLogged){
+           SplashDestination.Home
+        }else{
+            SplashDestination.Login
+        }
+
+    }
+}
+
+sealed class SplashDestination{
+    object Login: SplashDestination()
+    object Home: SplashDestination()
+
+}
+````
+Como ves creamos una sealed class con objetos para que sea mas sencillo y fuera de errores de sintaxis, elegir la opcion. Asi donde
+lo llamemos podemos utilizar un when y que nos ponga todas la ramas que hay, asi podemos crear mas y nos dara error donde falte:
+````kotlin
+@AndroidEntryPoint
+class SplashActivity : AppCompatActivity() {
+
+    private val splashViewModel: SplashViewModel by viewModels()
+
+    private lateinit var binding: ActivitySplashBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        when (splashViewModel.checkDestination()) {
+            SplashDestination.Home -> navigateToHome()
+            SplashDestination.Login -> navigateToLogin()
+        }
+    }
+
+    private fun navigateToLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
+    }
+    private fun navigateToHome() {
+        startActivity(Intent(this, DetailActivity::class.java))
+    }
+}
+
+
+````
+AHora si ejecutamos, ahora como estamos logeados ya no vamos a login sino a Home que nos lleva a la pantalla Detail. Ahora aunque salimos en Home que tiene el boton logout,
+pero todavia no lo hemos configurado, para logoutarnos tenemos que salir y darle al icono y en la info y borramos el storage.
+
+
+
+
+
+
+
+
 
