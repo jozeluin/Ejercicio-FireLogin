@@ -73,6 +73,9 @@ class AuthService @Inject constructor(private val firebaseAuth: FirebaseAuth) {
 
 
 
+ /**
+  * Completa el registro con el numero de telefono
+  */
      suspend fun completeRegisterWithPhone(credential: PhoneAuthCredential): FirebaseUser?{
         return suspendCancellableCoroutine { cancellableContinuation ->
             firebaseAuth.signInWithCredential(credential).addOnSuccessListener {

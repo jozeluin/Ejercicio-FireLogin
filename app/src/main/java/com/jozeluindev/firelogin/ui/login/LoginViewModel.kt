@@ -53,7 +53,7 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
             _isLoading.value = true
 
             val callback = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                override fun onVerificationCompleted(credentials: PhoneAuthCredential) {
+                override fun onVerificationCompleted(credentials: PhoneAuthCredential) {//si ya ha sido verificado
 
                     //navigateToDetail() todo ha ido bien
 
@@ -63,23 +63,32 @@ class LoginViewModel @Inject constructor(private val authService: AuthService) :
                         }
 
                         if(result!=null){
-                            onVerificationCompleted()
+                            onVerificationCompleted()//todo ha ido bien
 
                         }
 
                     }
 
 
-
-
                 }
 
+                /**
+                 * Se llama cuando se haya producido un error en la verificacion del numero de telefonoT
+                 *
+                 * @param p0
+                 */
                 override fun onVerificationFailed(p0: FirebaseException) {
                     _isLoading.value = false
                     onVerificationFailed(p0.message.orEmpty())
 
                 }
 
+                /**
+                 * Se llama cuando se haya enviado un codigo de verificacion al movil
+                 *
+                 * @param verificationCode
+                 * @param p1
+                 */
                 override fun onCodeSent(verificationCode: String, p1: PhoneAuthProvider.ForceResendingToken) {
                     //cuando haya enviado el sms al movil
                     this@LoginViewModel.verificationCode = verificationCode

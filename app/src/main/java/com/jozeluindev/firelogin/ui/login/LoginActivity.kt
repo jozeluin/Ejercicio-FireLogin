@@ -79,8 +79,10 @@ class LoginActivity : AppCompatActivity() {
                     phoneBinding.btnPhone.isEnabled=false
                     phoneBinding.pinView.isVisible = true
                     phoneBinding.pinView.requestFocus()
-                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager//forzar teclado
+                    //forzar teclado
+                    val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(phoneBinding.pinView, InputMethodManager.SHOW_IMPLICIT)
+                    ////
 
                 },
                 onVerificationCompleted = {navigateToDetail()},
