@@ -35,8 +35,7 @@ class LoginActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 try {
-                    val account =
-                        task.getResult(ApiException::class.java)!!//devoulucion parseado a ese modelo de datos
+                    val account = task.getResult(ApiException::class.java)!!//devoulucion parseado a ese modelo de datos
                     loginViewModel.loginWithGoogle(account.idToken!!) { navigateToDetail() }
 
                 } catch (e: ApiException) {
